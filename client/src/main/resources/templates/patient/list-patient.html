@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container">
+    <h1>Application Mediscreen</h1>
+
+    <div class="row">
+        <h2>Patient List</h2>
+    </div>
+    <div class="row">
+        <a href="/patient/add-patient" class="btn btn-primary btn-sm">Add New</a>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Sex</th>
+                <th>Date of Birth</th>
+                <th>Address</th>
+                <th>Phone</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="patient : ${patients}">
+                <td style="width: 10%" th:text="${patient.id}"></td>
+                <td th:text="${patient.firstName}"></td>
+                <td th:text="${patient.lastName}"></td>
+                <td th:text="${patient.sex}"></td>
+                <td th:text="${patient.dob}"></td>
+                <td th:text="${patient.address}"></td>
+                <td th:text="${patient.phone}"></td>
+                <td style="width: 300px" class="text-center">
+                    <a th:href="@{/patient/get-patient/{id}(id=${patient.id})}" class="btn btn-primary btn-sm">See more</a>&nbsp;
+                    <a th:href="@{/patient/update-patient/{id}(id=${patient.id})}" class="btn btn-warning btn-sm">Edit</a>&nbsp;&nbsp;
+                    <a th:href="@{/patient/delete-patient/{id}(id=${patient.id})}" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<script type="text/javascript" src="webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

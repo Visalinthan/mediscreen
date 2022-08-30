@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../webjars/bootstrap/4.0.0-2/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container">
+    <h1 class="text-center">Patient</h1>
+    <div class="row">
+        <div class="col-md-4 mx-auto mt-5 text-center">
+            <p th:text="${patient.firstName}" class="font-weight-bold"></p>
+            <p th:text="${patient.lastName}"></p>
+            <p th:text="${patient.sex}"></p>
+            <p th:text="${patient.dob}"></p>
+            <p th:text="${patient.address}"></p>
+            <p th:text="${patient.phone}"></p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../webjars/bootstrap/4.0.0-2/js/bootstrap.min.js"></script>
+</body>
+</html>
