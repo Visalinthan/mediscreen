@@ -5,6 +5,9 @@
       <list>
         <option value="$PROJECT_DIR$/client/pom.xml" />
         <option value="$PROJECT_DIR$/patient/pom.xml" />
+        <option value="$PROJECT_DIR$/server/pom.xml" />
+        <option value="$PROJECT_DIR$/consultation/pom.xml" />
+        <option value="$PROJECT_DIR$/medecin/pom.xml" />
       </list>
     </option>
   </component>

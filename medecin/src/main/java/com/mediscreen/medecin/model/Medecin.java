@@ -1,4 +1,4 @@
-package main.java.com.mediscreen.medecin.model;
+package com.mediscreen.medecin.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,4 +16,6 @@ public class Medecin {
     private Long id;
     private String firstName;
     private String lastName;
+    private String userName;
+    private String password;
 }

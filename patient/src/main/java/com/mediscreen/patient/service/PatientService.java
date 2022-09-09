@@ -16,20 +16,20 @@ public class PatientService {
     }
 
     /**
-     * Recherche une liste d'offre avec la méthode findAll de l'interface patientRepository
+     * Recherche une liste de patient avec la méthode findAll de l'interface patientRepository
      * @return une liste de patient
      */
     public List<Patient> list(){return this.patientRepository.findAll();}
 
     /**
-     * Recherche une offre en fonction de l'id dans le paramètre avec la méthode findAll de patientRepository
+     * Recherche un patient en fonction de l'id dans le paramètre avec la méthode findAll de patientRepository
      * @param id
      * @return patient
      */
     public Optional<Patient> findById(Long id){return this.patientRepository.findById(id);}
 
     /**
-     * Sauvergarde d'une offre avec la méthode save de patientRepository
+     * Sauvergarde d'un patient avec la méthode save de patientRepository
      * @param patient
      * @return une sauvegarde patient
      */
@@ -64,7 +64,7 @@ public class PatientService {
     }
 
     /**
-     * Suppression d'une offre en récupérant l'id dans le paramètre avec la méthode deleteById de bidListRepository
+     * Suppression d'un patient en récupérant l'id dans le paramètre avec la méthode deleteById de patientRepository
      * @param id
      */
     public void deleteById(Long id){

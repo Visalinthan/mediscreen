@@ -8,18 +8,27 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="client" />
+        <module name="server" />
+        <module name="consultation" />
         <module name="patient" />
+        <module name="medecin" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="client" target="17" />
+      <module name="consultation" target="11" />
+      <module name="medecin" target="11" />
       <module name="patient" target="11" />
+      <module name="server" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="client" options="-parameters" />
+      <module name="consultation" options="-parameters" />
+      <module name="medecin" options="-parameters" />
       <module name="patient" options="-parameters" />
+      <module name="server" options="-parameters" />
     </option>
   </component>
 </project>
