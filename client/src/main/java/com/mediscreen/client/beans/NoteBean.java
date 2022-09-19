@@ -12,6 +12,6 @@ public class NoteBean {
     private String title;
     private String content;
     private String date;
-    public String patientId;
-    public String medecinId;
+    private String patientId;
+    //public String medecinId;
 }

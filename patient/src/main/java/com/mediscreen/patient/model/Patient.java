@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.Period;
 
 @Data
 @AllArgsConstructor
@@ -21,4 +23,9 @@ public class Patient {
     private LocalDate dob;
     private String address;
     private int phone;
+
+    public int calculateAge(LocalDate birthDate) {
+        LocalDate currentDate = LocalDate.now();
+        return Period.between(birthDate, currentDate).getYears();
+    }
 }

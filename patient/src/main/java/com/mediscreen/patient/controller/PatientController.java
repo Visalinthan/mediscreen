@@ -53,13 +53,16 @@ public class PatientController {
     }
 
     @DeleteMapping("/deletePatient/{id}")
-    public ResponseEntity<Long> deleteBid(@PathVariable Long id) {
+    public void deletePatient(@PathVariable Long id) {
         Optional<Patient> patient = patientService.findById(id);
         if(patient==null) throw new PatientIntrouvableException("Le patient avec l'id " + id + " est INTROUVABLE. ");
         patientService.deleteById(id);
-
-        return ResponseEntity.ok(id);
     }
 
+    @GetMapping("/getAge/{id}")
+    public int calculAge(@PathVariable Long id){
+        Optional<Patient> patient = patientService.findById(id);
+        return patientService.calculAge(patient.get());
+    }
 
 }

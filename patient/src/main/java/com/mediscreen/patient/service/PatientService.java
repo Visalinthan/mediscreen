@@ -70,4 +70,10 @@ public class PatientService {
     public void deleteById(Long id){
         this.patientRepository.deleteById(id);
     }
+
+
+    public int calculAge(Patient patient){
+       int age = patient.calculateAge(patient.getDob());
+       return age;
+    }
 }

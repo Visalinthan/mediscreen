@@ -1,6 +1,8 @@
 package com.mediscreen.client.controller;
 
+import com.mediscreen.client.beans.NoteBean;
 import com.mediscreen.client.beans.PatientBean;
+import com.mediscreen.client.proxies.MicroserviceNoteProxy;
 import com.mediscreen.client.proxies.MicroservicePatientProxy;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,9 +16,11 @@ import java.util.List;
 public class ClientController {
 
     private final MicroservicePatientProxy patientProxy;
+    private final MicroserviceNoteProxy noteProxy;
 
-    public ClientController(MicroservicePatientProxy patientProxy){
+    public ClientController(MicroservicePatientProxy patientProxy, MicroserviceNoteProxy noteProxy){
         this.patientProxy = patientProxy;
+        this.noteProxy = noteProxy;
     }
 
     @RequestMapping("/patient/")
@@ -29,7 +33,12 @@ public class ClientController {
     @RequestMapping("patient/get-patient/{id}")
     public String getPatientById(@PathVariable Long id, Model model){
         PatientBean patient = patientProxy.getPatientbyId(id);
+        String StrId = Long.toString(id);
+        String report = noteProxy.reportPatient(StrId);
+        List<NoteBean> notes =  noteProxy.listNoteByPatientId(StrId);
+        model.addAttribute("notes", notes);
         model.addAttribute("patient", patient);
+        model.addAttribute("report", report);
         return "patient/get-patient";
     }
 
@@ -39,7 +48,7 @@ public class ClientController {
     }
 
     @PostMapping("/patient/validate")
-    public String validateBid(@Valid PatientBean patientBean, BindingResult result, Model model) {
+    public String validatePatient(@Valid PatientBean patientBean, BindingResult result, Model model) {
 
         if (!result.hasErrors()) {
             patientProxy.addPatient(patientBean);

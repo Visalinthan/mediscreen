@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<title>Home</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" />
+</head>
+<body>
+<div class="container">
+
+	<div class="row">
+		<h2>Update Note</h2>
+	</div>
+
+	<div class="row">
+		<form action="#" th:action="@{/notes/update-notes/{id}(id=${notes.id})}" th:object="${notes}" method="post" class="form-horizontal" style="width: 100%">
+			<div class="form-group">
+				<label for="title" class="col-sm-2 control-label">Title</label>
+				<div class="col-sm-10">
+					<input type="text" th:field="*{title}" id="title" placeholder="title" class="col-4">
+					<p class="text-danger" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="content" class="col-sm-2 control-label">Content</label>
+				<div class="col-sm-10">
+					<textarea  th:field="*{content}" id="content" placeholder="content" class="col-4"></textarea>
+					<p class="text-danger" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></p>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<div class="col-sm-12">
+					<a class="btn btn-danger btn-sm" th:href="@{/patient/get-patient/{id}(id=${patient.id})}">Cancel</a>
+					<input class="btn btn-primary btn-sm" type="submit" value="Update Patient">
+				</div>
+			</div>
+		</form>
+	</div>
+
+</div>
+</body>
+</html>
