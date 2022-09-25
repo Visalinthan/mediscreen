@@ -15,6 +15,13 @@
 	<description>interface mediscreen</description>
 	<properties>
 		<java.version>17</java.version>
+		<project.testresult.directory>${project.build.directory}/test-results</project.testresult.directory>
+		<junit.utReportFolder>${project.testresult.directory}/test</junit.utReportFolder>
+
+		<jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+		<jacoco.utReportFolder>${project.build.directory}/jacoco/test</jacoco.utReportFolder>
+		<jacoco.utReportFile>${jacoco.utReportFolder}/test.exec</jacoco.utReportFile>
+
 	</properties>
 	<dependencies>
 		<dependency>

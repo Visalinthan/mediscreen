@@ -61,8 +61,9 @@ public class PatientController {
 
     @GetMapping("/getAge/{id}")
     public int calculAge(@PathVariable Long id){
-        Optional<Patient> patient = patientService.findById(id);
-        return patientService.calculAge(patient.get());
+        return patientService.findById(id)
+                .map(patientService::calculAge)
+                .orElse(0);
     }
 
 }

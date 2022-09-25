@@ -18,8 +18,11 @@ public class ReportService {
     @Autowired
     private ConsultationService consultationService;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    RestTemplate restTemplate = new RestTemplate();
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
 
     public ReportService(NotesRepository notesRepository, ConsultationService consultationService) {
@@ -49,7 +52,6 @@ public class ReportService {
         }
 
         String levelRisk = null;
-       // System.out.println("id = "+patient.getId() +" sex = "+patient.getSex() +" term = "+ count + " age = " + age +" ans");
 
         if(count <= 1){
             levelRisk= "None";

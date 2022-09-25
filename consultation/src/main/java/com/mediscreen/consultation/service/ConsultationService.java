@@ -17,8 +17,11 @@ public class ConsultationService {
     @Autowired
     private NotesRepository notesRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    RestTemplate restTemplate = new RestTemplate();
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public ConsultationService(NotesRepository notesRepository) {
         this.notesRepository = notesRepository;
@@ -28,8 +31,8 @@ public class ConsultationService {
 
     public List<Notes> listNotesByPatientId(String id){
         Patient patient = restTemplate.getForObject("http://localhost:9191/patient/getPatient/"+id, Patient.class);
-        String Str_PatientId = Long.toString(patient.getId());
-        return this.notesRepository.findByPatientId(Str_PatientId);
+        String str_PatientId = Long.toString(patient.getId());
+        return this.notesRepository.findByPatientId(str_PatientId);
     }
 
     public Optional<Notes> findById(String id){return this.notesRepository.findById(id);}
