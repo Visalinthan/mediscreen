@@ -1,14 +1,13 @@
 package com.mediscreen.consultation.service;
 
 import com.mediscreen.consultation.model.Notes;
+import com.mediscreen.consultation.proxies.MicroservicePatientProxy;
 import com.mediscreen.consultation.repository.NotesRepository;
 import com.mediscreen.consultation.vo.Patient;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,16 +21,14 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ConsultationServiceTest {
 
+    @Mock
     private NotesRepository notesRepository = Mockito.mock(NotesRepository.class);
 
-    RestTemplate restTemplate  = Mockito.mock(RestTemplate.class);
+    @Mock
+    MicroservicePatientProxy patientProxy;
 
-    private ConsultationService consultationService = new ConsultationService(notesRepository);
-
-    @BeforeEach
-    void init(){
-        consultationService.setRestTemplate(restTemplate);
-    }
+    @InjectMocks
+    private ConsultationService consultationService ;
 
     private static Notes getNote(){
 
@@ -62,15 +59,11 @@ class ConsultationServiceTest {
 
         Patient patient = new Patient(1L,"vishal","john","M", LocalDate.parse("1984-03-06"),"2 rue olive",131404644);
 
-        Mockito.when(restTemplate.getForObject(
-                        anyString(),
-                        any(Class.class)
-                ))
-                .thenReturn(patient);
+        when(patientProxy.getPatientbyId(anyLong())).thenReturn(patient);
 
         when(notesRepository.findByPatientId(any())).thenReturn(notes);
 
-        assertThat(consultationService.listNotesByPatientId("1").get(0).getId()).isEqualTo(getNote().getId());
+        assertThat(consultationService.listNotesByPatientId(1L).get(0).getId()).isEqualTo(getNote().getId());
     }
 
     @Test
@@ -89,15 +82,12 @@ class ConsultationServiceTest {
         Notes notes = getNote();
 
         Patient patient = new Patient(1L,"vishal","john","M", LocalDate.parse("1984-03-06"),"2 rue olive",131404644);
-        Mockito.when(restTemplate.getForObject(
-                        anyString(),
-                        any(Class.class)
-                ))
-                .thenReturn(patient);
+
+        when(patientProxy.getPatientbyId(anyLong())).thenReturn(patient);
 
         when(notesRepository.save((Notes) any())).thenReturn(notes);
 
-        assertThat(consultationService.save(notes,"1")).isEqualTo(notes);
+        assertThat(consultationService.save(notes,1L)).isEqualTo(notes);
     }
 
     @Test

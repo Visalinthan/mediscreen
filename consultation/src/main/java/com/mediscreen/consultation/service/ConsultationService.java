@@ -1,6 +1,7 @@
 package com.mediscreen.consultation.service;
 
 import com.mediscreen.consultation.model.Notes;
+import com.mediscreen.consultation.proxies.MicroservicePatientProxy;
 import com.mediscreen.consultation.repository.NotesRepository;
 import com.mediscreen.consultation.vo.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,28 +18,26 @@ public class ConsultationService {
     @Autowired
     private NotesRepository notesRepository;
 
-    RestTemplate restTemplate = new RestTemplate();
+    private final MicroservicePatientProxy patientProxy;
 
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
-    public ConsultationService(NotesRepository notesRepository) {
+    public ConsultationService(NotesRepository notesRepository, MicroservicePatientProxy patientProxy) {
         this.notesRepository = notesRepository;
+        this.patientProxy = patientProxy;
     }
 
     public List<Notes> list(){return this.notesRepository.findAll();}
 
-    public List<Notes> listNotesByPatientId(String id){
-        Patient patient = restTemplate.getForObject("http://localhost:9191/patient/getPatient/"+id, Patient.class);
+    public List<Notes> listNotesByPatientId(Long id){
+        Patient patient = patientProxy.getPatientbyId(id);
         String str_PatientId = Long.toString(patient.getId());
         return this.notesRepository.findByPatientId(str_PatientId);
     }
 
     public Optional<Notes> findById(String id){return this.notesRepository.findById(id);}
 
-    public Notes save(Notes note, String PatientId){
-        Patient patient = restTemplate.getForObject("http://localhost:9191/patient/getPatient/"+PatientId, Patient.class);
+    public Notes save(Notes note, Long PatientId){
+        Patient patient = patientProxy.getPatientbyId(PatientId);;
         String Str_PatientId = Long.toString(patient.getId());
         note.setPatientId(Str_PatientId);
         return this.notesRepository.save(note);

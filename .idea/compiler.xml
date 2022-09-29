@@ -16,7 +16,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="client" target="17" />
+      <module name="client" target="11" />
       <module name="consultation" target="11" />
       <module name="gateway" target="11" />
       <module name="medecin" target="11" />

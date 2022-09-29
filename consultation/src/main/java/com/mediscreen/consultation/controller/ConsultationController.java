@@ -35,12 +35,12 @@ public class ConsultationController {
     }
 
     @RequestMapping(value ="/notesByPatient/{id}", method = RequestMethod.GET)
-    public List<Notes> listByPatient(@PathVariable("id") String id) {
+    public List<Notes> listByPatient(@PathVariable("id") Long id) {
         return consultationService.listNotesByPatientId(id);
     }
 
     @RequestMapping(value ="/addNote/{id}", method = RequestMethod.POST)
-    public ResponseEntity<Notes> addNote(@PathVariable("id") String id, @RequestBody Notes notes) {
+    public ResponseEntity<Notes> addNote(@PathVariable("id") Long id, @RequestBody Notes notes) {
 
         Notes newNotes = consultationService.save(notes, id);
 
@@ -65,7 +65,7 @@ public class ConsultationController {
     }
 
     @RequestMapping(value ="/reportPatient/{id}", method = RequestMethod.GET)
-    public String reportPatient(@PathVariable("id") String id) {
+    public String reportPatient(@PathVariable("id") Long id) {
         return reportService.getReportPatient(id);
     }
 

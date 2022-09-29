@@ -1,43 +1,38 @@
 package com.mediscreen.consultation.service;
 
 import com.mediscreen.consultation.model.Notes;
+import com.mediscreen.consultation.proxies.MicroservicePatientProxy;
 import com.mediscreen.consultation.repository.NotesRepository;
 import com.mediscreen.consultation.vo.Patient;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
+
 
 @ExtendWith(MockitoExtension.class)
 class ReportServiceTest {
 
-    private NotesRepository notesRepository = Mockito.mock(NotesRepository.class);
+    @Mock
+    private NotesRepository notesRepository;
 
-    private ConsultationService consultationService = Mockito.mock(ConsultationService.class);
+    @Mock
+    private ConsultationService consultationService;
 
-    RestTemplate restTemplate  = Mockito.mock(RestTemplate.class);
+    @Mock
+    MicroservicePatientProxy patientProxy;
 
-    private ReportService reportService = new ReportService(notesRepository,consultationService);
-
-    @BeforeEach
-    void init(){
-        reportService.setRestTemplate(restTemplate);
-    }
+    @InjectMocks
+    private ReportService reportService;
 
     private static Notes getNote(){
 
@@ -55,25 +50,19 @@ class ReportServiceTest {
     @Test
     void getReportPatient() {
 
-       /*  List<Notes> notes = new ArrayList<>();
+        List<Notes> notes = new ArrayList<>();
         notes.add(getNote());
 
        Patient patient = new Patient(1L,"vishal","john","M", LocalDate.parse("1984-03-06"),"2 rue olive",131404644);
 
-        int age = 34;
+       int age = 34;
 
-        Mockito.when(restTemplate.getForObject(
-                        any(), any(Class.class)
-                ))
-                .thenReturn(patient);
+        when(patientProxy.getPatientbyId(anyLong())).thenReturn(patient);
 
-        Mockito.when(restTemplate.getForObject(
-                        any(), eq(int.class)
-                ))
-                .thenReturn(age);
+        when(patientProxy.getAgePatient(anyLong())).thenReturn(age);
 
-        when(notesRepository.findByPatientId(any())).thenReturn(notes);
+        //when(notesRepository.findByPatientId(any())).thenReturn(notes);
 
-        assertThat(reportService.getReportPatient("19")).isEqualTo(anyString());*/
+        assertThat(reportService.getReportPatient(1L)).isNotNull();
     }
 }

@@ -89,7 +89,7 @@ class ConsultationControllerTest {
 
         notes.add(getNote());
 
-        when(consultationService.listNotesByPatientId(anyString())).thenReturn(notes);
+        when(consultationService.listNotesByPatientId(anyLong())).thenReturn(notes);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/consultation/notesByPatient/100")
@@ -110,7 +110,7 @@ class ConsultationControllerTest {
 
         Notes note = getNote();
 
-        when(consultationService.save((Notes) any(),anyString())).thenReturn(note);
+        when(consultationService.save((Notes) any(),anyLong())).thenReturn(note);
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/consultation/addNote/1")

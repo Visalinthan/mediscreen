@@ -1,6 +1,7 @@
 package com.mediscreen.consultation.service;
 
 import com.mediscreen.consultation.model.Notes;
+import com.mediscreen.consultation.proxies.MicroservicePatientProxy;
 import com.mediscreen.consultation.repository.NotesRepository;
 import com.mediscreen.consultation.vo.Patient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +19,20 @@ public class ReportService {
     @Autowired
     private ConsultationService consultationService;
 
-    RestTemplate restTemplate = new RestTemplate();
-
-    public void setRestTemplate(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
+    private final MicroservicePatientProxy patientProxy;
 
 
-    public ReportService(NotesRepository notesRepository, ConsultationService consultationService) {
+    public ReportService(NotesRepository notesRepository, ConsultationService consultationService, MicroservicePatientProxy patientProxy) {
         this.notesRepository = notesRepository;
         this.consultationService = consultationService;
+        this.patientProxy = patientProxy;
     }
 
-    public String getReportPatient(String id){
+    public String getReportPatient(Long id){
 
-        Patient patient = restTemplate.getForObject("http://localhost:9191/patient/getPatient/"+id, Patient.class);
+        Patient patient = patientProxy.getPatientbyId(id);
 
-        int age = restTemplate.getForObject("http://localhost:9191/patient/getAge/"+id, int.class);
+        int age = patientProxy.getAgePatient(id);
 
         List<Notes> notes = consultationService.listNotesByPatientId(id);
 

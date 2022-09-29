@@ -130,6 +130,8 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+		<finalName>medecin</finalName>
 	</build>
 
 </project>

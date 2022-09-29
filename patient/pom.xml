@@ -141,7 +141,7 @@
 			</plugin>
 
 		</plugins>
-
+		<finalName>patient</finalName>
 
 	</build>
 

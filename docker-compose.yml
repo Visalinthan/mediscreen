@@ -1,0 +1,149 @@
+version: "3.8"
+services:
+  db:
+    image: mysql
+    container_name: db
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mediscreen
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+    restart: always
+    networks:
+      - ms-network
+
+  mongodb:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - ms-network
+    environment:
+      MONGO_DB_HOSTNAME: host.docker.internal
+      MONGO_DB_USERNAME: root
+      MONGO_DB_PASSWORD:
+    volumes:
+      - 'mongo:/data/db'
+    restart: always
+
+  server:
+    image: server
+    container_name: server
+    build: ./server
+    environment:
+      eureka.instance.hostname: server
+      eureka.client.serviceUrl.defaultZone: http://server:8761/eureka/
+    expose:
+      - 8761
+    ports:
+      - 8761:8761
+    restart: always
+    networks:
+      - ms-network
+
+
+  gateway:
+    image: gateway
+    build: ./gateway
+    container_name: gateway
+    networks:
+      - ms-network
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://server:8761/eureka/
+    depends_on:
+      - server
+    expose:
+      - 9191
+    ports:
+      - 9191:9191
+    restart: unless-stopped
+
+  patient:
+    container_name: patient
+    depends_on:
+      - db
+      - server
+      - gateway
+    image: patient
+    build: ./patient
+    networks:
+      - ms-network
+    expose:
+      - 9001
+    restart: on-failure
+    ports:
+      - 9001:9001
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db/mediscreen?allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false
+      eureka.client.serviceUrl.defaultZone: http://server:8761/eureka/
+
+  medecin:
+    container_name: medecin
+    depends_on:
+      - db
+      - server
+      - gateway
+    image: medecin
+    build: ./medecin
+    networks:
+      - ms-network
+    expose:
+      - 9002
+    ports:
+      - 9002:9002
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://db/mediscreen?allowPublicKeyRetrieval=true&autoReconnect=true&useSSL=false
+      eureka.client.serviceUrl.defaultZone: http://server:8761/eureka/
+    restart: unless-stopped
+
+  consultation:
+    container_name: consultation
+    depends_on:
+      - mongodb
+      - server
+      - gateway
+      - patient
+    image: consultation
+    build: ./consultation
+    restart: unless-stopped
+    networks:
+      - ms-network
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://server:8761/eureka/
+
+    expose:
+      - 9003
+    ports:
+      - 9003:9003
+
+  client:
+    container_name: client
+    depends_on:
+      - server
+      - gateway
+      - patient
+      - medecin
+      - consultation
+    image: client
+    build: ./client
+    restart: unless-stopped
+    networks:
+      - ms-network
+    environment:
+      eureka.client.serviceUrl.defaultZone: http://server:8761/eureka/
+
+    expose:
+      - 9000
+    ports:
+      - 9000:9000
+
+networks:
+  ms-network:
+    name: ms-network
+    driver: bridge
+volumes:
+  dbdata:
+  mongo:
