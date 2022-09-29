@@ -23,7 +23,7 @@ public class ClientController {
         this.noteProxy = noteProxy;
     }
 
-    @RequestMapping("/patient/")
+    @RequestMapping("/")
     public String listPatient(Model model){
         List<PatientBean> patients =  patientProxy.listPatients();
         model.addAttribute("patients", patients);
@@ -54,7 +54,7 @@ public class ClientController {
             patientProxy.addPatient(patientBean);
             List<PatientBean> patients =  patientProxy.listPatients();
             model.addAttribute("patients", patients);
-            return "redirect:/patient/";
+            return "redirect:/";
         }
         return "patient/add-patient";
     }
@@ -74,7 +74,7 @@ public class ClientController {
         }
         patientProxy.updatePatient(id,patientBean);
         model.addAttribute("patients", patientProxy.listPatients());
-        return "redirect:/patient/";
+        return "redirect:/";
     }
 
     @GetMapping("patient/delete-patient/{id}")
@@ -83,7 +83,7 @@ public class ClientController {
         patientProxy.deletePatient(patient.getId());
         List<PatientBean> patients =  patientProxy.listPatients();
         model.addAttribute("patients", patients);
-        return "redirect:/patient/";
+        return "redirect:/";
     }
 
 

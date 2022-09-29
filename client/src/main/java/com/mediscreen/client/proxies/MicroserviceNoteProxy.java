@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
-@FeignClient(name = "consultation", url = "localhost:9191")
+@FeignClient(name = "consultation", url = "host.docker.internal:9191")
 public interface MicroserviceNoteProxy {
 
     @GetMapping(value="/consultation/notesByPatient/{id}")
